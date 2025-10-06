@@ -1,0 +1,41 @@
+# Project-wide ignores
+# ====================
+
+# Root-level environment variables (if any)
+.env
+.env.local
+.env.production
+
+# Root-level build outputs (if any)
+build/
+dist/
+
+# Docker files
+.dockerignore
+Dockerfile*
+docker-compose*
+
+# Documentation and deployment files (project-specific)
+*.md
+!README.md
+docs/
+
+# Project-wide logs (if any exist at root)
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+

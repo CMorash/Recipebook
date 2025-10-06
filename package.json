@@ -1,0 +1,29 @@
+{
+  "name": "digital-cookbook",
+  "version": "0.1.0",
+  "description": "Digital cookbook application for managing recipes",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "build:all": "npm run build:frontend && npm run build:backend",
+    "docker:dev": "docker-compose up --build",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:down": "docker-compose down"
+  },
+  "keywords": [
+    "cookbook",
+    "recipes",
+    "react",
+    "typescript",
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+

@@ -1,0 +1,68 @@
+# Fly.io configuration for Digital Cookbook
+# This is a multi-process configuration that runs both frontend and backend
+
+app = "digital-cookbook"
+primary_region = "iad" # US East (change based on your location)
+
+[build]
+  dockerfile = "Dockerfile.fly"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "8080"
+
+# Frontend service (Nginx serving React build)
+[[services]]
+  internal_port = 80
+  protocol = "tcp"
+  
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+    force_https = true
+  
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+  
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.http_checks]]
+    interval = "10s"
+    grace_period = "5s"
+    method = "get"
+    path = "/"
+    protocol = "http"
+    timeout = "2s"
+
+# Backend service (Express API)
+[[services]]
+  internal_port = 5000
+  protocol = "tcp"
+  
+  [[services.ports]]
+    handlers = ["http"]
+    port = 5000
+  
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.http_checks]]
+    interval = "10s"
+    grace_period = "5s"
+    method = "get"
+    path = "/"
+    protocol = "http"
+    timeout = "2s"
+
+# VM resources (free tier: shared-cpu-1x with 256MB)
+[vm]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
