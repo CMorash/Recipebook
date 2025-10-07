@@ -4,13 +4,16 @@ A modern, full-stack digital cookbook application for managing and organizing yo
 
 ## Features
 
-- 🔐 **User Authentication** - Secure JWT-based authentication
+- 🔐 **User Authentication** - Secure JWT-based authentication with validation
 - 📝 **Recipe Management** - Create, edit, delete, and view recipes
 - ⭐ **5-Star Rating System** - Rate your recipes
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- 🎨 **Modern UI** - Beautiful Material-UI design
-- 🐳 **Docker Support** - Easy deployment with Docker containers
-- 🚀 **CI/CD Pipeline** - Automated deployment with GitHub Actions
+- 📱 **Responsive Design** - Optimized for mobile, tablet, and desktop
+- 🎨 **Modern UI** - Beautiful Material-UI design with smooth animations
+- 🔔 **Toast Notifications** - Clear user feedback for all actions
+- ✅ **Form Validation** - Comprehensive validation with helpful error messages
+- 🐳 **Docker Support** - Containerized deployment
+- 🚀 **Automated Deployments** - Zero-downtime deployments via GitHub Actions
+- 🌐 **Live on Fly.io** - Free, production-ready hosting
 
 ## Tech Stack
 
@@ -28,10 +31,10 @@ A modern, full-stack digital cookbook application for managing and organizing yo
 - JWT for authentication
 - Bcrypt for password hashing
 
-### DevOps
+### DevOps & Hosting
+- **Fly.io** - Main hosting platform (free tier, zero SSH deployment)
 - Docker & Docker Compose
-- GitHub Actions for CI/CD
-- Fly.io deployment (zero-config, fully automated)
+- GitHub Actions for CI/CD (automated deployments)
 - Nginx as reverse proxy
 
 ## Project Structure
@@ -162,41 +165,91 @@ VITE_API_URL=http://localhost:5000/api
 
 ## Deployment
 
-### AWS EC2 Deployment
+### 🚀 Fly.io Deployment (Current Method)
 
-1. **Set up EC2 instance**
-   - Launch Ubuntu 22.04 t2.micro instance
-   - Configure security groups (ports 22, 80, 443)
-   - Install Docker and Docker Compose
+This application is deployed on **Fly.io** with fully automated, zero-SSH deployments via GitHub Actions.
 
-2. **Configure GitHub Secrets**
+**Live App:** Check `fly.toml` for your app URL (e.g., `https://your-app.fly.dev`)
 
-Add the following secrets to your GitHub repository:
+#### Prerequisites
+- Fly.io account (free tier available)
+- Fly CLI installed (`fly`)
+- MongoDB Atlas database
 
-- `DOCKER_USERNAME` - Docker Hub username
-- `DOCKER_PASSWORD` - Docker Hub password
-- `EC2_HOST` - EC2 public IP address
-- `EC2_USERNAME` - EC2 username (usually `ubuntu`)
-- `EC2_SSH_KEY` - Private SSH key for EC2 access
+#### Initial Setup
 
-3. **Deploy**
-
-Push to the `main` branch to trigger automatic deployment:
-
+1. **Install Fly CLI**
 ```bash
-git push origin main
+# macOS
+brew install flyctl
+
+# Windows
+pwsh -Command "iwr https://fly.io/install.ps1 -useb | iex"
+
+# Linux
+curl -L https://fly.io/install.sh | sh
 ```
 
-### Manual Deployment
-
-SSH into your EC2 instance and run:
-
+2. **Authenticate**
 ```bash
-cd /home/ubuntu/digital-cookbook
-git pull origin main
-docker-compose -f docker-compose.prod.yml pull
-docker-compose -f docker-compose.prod.yml up -d
+fly auth login
 ```
+
+3. **Launch App**
+```bash
+fly launch
+# Follow prompts, select region, etc.
+```
+
+4. **Set Secrets**
+```bash
+fly secrets set MONGODB_URI="your-mongodb-uri"
+fly secrets set JWT_SECRET="your-jwt-secret"
+fly secrets set NODE_ENV="production"
+fly secrets set PORT="8080"
+fly secrets set CORS_ORIGIN="https://your-app.fly.dev"
+fly secrets set JWT_EXPIRES_IN="7d"
+```
+
+5. **Deploy**
+```bash
+fly deploy
+```
+
+#### Automated Deployments (GitHub Actions)
+
+Once set up, every push to `main` automatically deploys to Fly.io!
+
+**Required GitHub Secret:**
+- `FLY_API_TOKEN` - Generate with: `fly tokens create deploy`
+
+See `.github/workflows/deploy-fly.yml` for the CI/CD workflow.
+
+#### Monitoring
+```bash
+# View logs
+fly logs
+
+# Check status
+fly status
+
+# Open app
+fly open
+```
+
+For detailed deployment instructions, see [docs/FLY_IO_DEPLOYMENT.md](docs/FLY_IO_DEPLOYMENT.md)
+
+---
+
+### AWS EC2 Deployment (Future Alternative)
+
+AWS EC2 deployment may be implemented as an alternative hosting option in a future iteration. The current Fly.io deployment provides:
+- ✅ Zero SSH management
+- ✅ Automatic HTTPS/SSL
+- ✅ Free tier hosting
+- ✅ Simplified deployment pipeline
+
+If AWS hosting is needed in the future, see [docs/DEPLOYMENT_OPTIONS.md](docs/DEPLOYMENT_OPTIONS.md) for comparison and setup instructions.
 
 ## Development Roadmap
 
@@ -207,11 +260,14 @@ docker-compose -f docker-compose.prod.yml up -d
 - [x] 5-star rating system
 - [x] Responsive UI
 
-### Phase 2: Deployment (NEXT - In Progress)
+### Phase 2: Deployment ✅ COMPLETED
 - [x] Docker configuration
-- [ ] Fly.io setup (zero SSH!)
-- [ ] GitHub Actions CI/CD
-- [ ] Production testing
+- [x] Fly.io setup (zero SSH!)
+- [x] GitHub Actions CI/CD
+- [x] Production deployment
+- [x] Toast notifications
+- [x] Enhanced form validation
+- [x] Mobile responsiveness
 
 ### Phase 3: Recipe Scraping (Future)
 - [ ] URL-based recipe import
@@ -226,7 +282,8 @@ docker-compose -f docker-compose.prod.yml up -d
 - [ ] Shopping list generation
 - [ ] Meal planning
 - [ ] LLM integration
-- [ ] AWS Secrets Manager for JWT rotation (optional)
+- [ ] AWS Secrets Manager for JWT rotation (if migrating to AWS)
+- [ ] AWS EC2 deployment option (alternative to Fly.io)
 
 ## Testing
 

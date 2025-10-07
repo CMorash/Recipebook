@@ -13,6 +13,7 @@ import { Recipe } from '@/types/recipe.types'
 import { useState } from 'react'
 import ConfirmDialog from '@/components/common/ConfirmDialog'
 import { recipeService } from '@/services/recipeService'
+import { showToast } from '@/utils/toast'
 
 interface RecipeCardProps {
   recipe: Recipe
@@ -29,9 +30,11 @@ export default function RecipeCard({ recipe, onClick, onDeleted }: RecipeCardPro
     setDeleting(true)
     try {
       await recipeService.deleteRecipe(recipe._id)
+      showToast.success('Recipe deleted successfully')
       onDeleted()
     } catch (error) {
       console.error('Failed to delete recipe:', error)
+      showToast.error('Failed to delete recipe')
     } finally {
       setDeleting(false)
       setDeleteDialogOpen(false)
@@ -51,10 +54,10 @@ export default function RecipeCard({ recipe, onClick, onDeleted }: RecipeCardPro
           display: 'flex',
           flexDirection: 'column',
           cursor: 'pointer',
-          transition: 'transform 0.2s, box-shadow 0.2s',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
           '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+            transform: 'translateY(-6px)',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.2)',
           },
         }}
         onClick={onClick}

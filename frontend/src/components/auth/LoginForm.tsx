@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { useAuth } from '@/contexts/AuthContext'
+import { showToast } from '@/utils/toast'
 
 export default function LoginForm() {
   const navigate = useNavigate()
@@ -22,13 +23,33 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    // Validation
+    if (!email.trim()) {
+      setError('Email is required')
+      return
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    if (!password) {
+      setError('Password is required')
+      return
+    }
+
     setLoading(true)
 
     try {
-      await login({ email, password })
+      await login({ email: email.trim(), password })
+      showToast.success('Welcome back!')
       navigate('/dashboard')
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to login. Please try again.')
+      const errorMessage = err.response?.data?.message || 'Failed to login. Please try again.'
+      setError(errorMessage)
+      showToast.error(errorMessage)
     } finally {
       setLoading(false)
     }

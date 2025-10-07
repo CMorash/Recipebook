@@ -24,6 +24,7 @@ import { recipeService } from '@/services/recipeService'
 import { Recipe } from '@/types/recipe.types'
 import RecipeDialog from '@/components/recipes/RecipeDialog'
 import ConfirmDialog from '@/components/common/ConfirmDialog'
+import { showToast } from '@/utils/toast'
 
 export default function RecipeDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -56,9 +57,12 @@ export default function RecipeDetailPage() {
     if (!id) return
     try {
       await recipeService.deleteRecipe(id)
+      showToast.success('Recipe deleted successfully')
       navigate('/dashboard')
     } catch (err: any) {
-      setError('Failed to delete recipe')
+      const errorMessage = 'Failed to delete recipe'
+      setError(errorMessage)
+      showToast.error(errorMessage)
       console.error(err)
     }
   }
@@ -66,6 +70,7 @@ export default function RecipeDetailPage() {
   const handleRecipeUpdated = (updatedRecipe: Recipe) => {
     setRecipe(updatedRecipe)
     setEditDialogOpen(false)
+    // Toast is shown by RecipeDialog component
   }
 
   if (loading) {
@@ -100,11 +105,26 @@ export default function RecipeDetailPage() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Paper sx={{ p: 4 }}>
-          <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={3}>
+      <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
+        <Paper sx={{ p: { xs: 2, sm: 4 } }}>
+          <Box 
+            display="flex" 
+            justifyContent="space-between" 
+            alignItems="flex-start" 
+            mb={3}
+            flexDirection={{ xs: 'column', sm: 'row' }}
+            gap={{ xs: 2, sm: 0 }}
+          >
             <Box flex={1}>
-              <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+              <Typography 
+                variant="h4"
+                component="h1" 
+                gutterBottom 
+                fontWeight="bold"
+                sx={{ 
+                  fontSize: { xs: '1.5rem', sm: '2.125rem' }
+                }}
+              >
                 {recipe.title}
               </Typography>
               {recipe.rating && (
@@ -121,11 +141,17 @@ export default function RecipeDetailPage() {
                 sx={{ mt: 1 }}
               />
             </Box>
-            <Box>
-              <IconButton onClick={() => setEditDialogOpen(true)} color="primary">
+            <Box display="flex" gap={1}>
+              <IconButton 
+                onClick={() => setEditDialogOpen(true)} 
+                color="primary"
+              >
                 <EditIcon />
               </IconButton>
-              <IconButton onClick={() => setDeleteDialogOpen(true)} color="error">
+              <IconButton 
+                onClick={() => setDeleteDialogOpen(true)} 
+                color="error"
+              >
                 <DeleteIcon />
               </IconButton>
             </Box>

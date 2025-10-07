@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { useAuth } from '@/contexts/AuthContext'
+import { showToast } from '@/utils/toast'
 
 export default function RegisterForm() {
   const navigate = useNavigate()
@@ -34,8 +35,34 @@ export default function RegisterForm() {
     e.preventDefault()
     setError('')
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match')
+    // Validation
+    if (!formData.username.trim()) {
+      setError('Username is required')
+      return
+    }
+
+    if (formData.username.length < 3) {
+      setError('Username must be at least 3 characters long')
+      return
+    }
+
+    if (formData.username.length > 30) {
+      setError('Username must not exceed 30 characters')
+      return
+    }
+
+    if (!formData.email.trim()) {
+      setError('Email is required')
+      return
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    if (!formData.password) {
+      setError('Password is required')
       return
     }
 
@@ -44,17 +71,25 @@ export default function RegisterForm() {
       return
     }
 
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
     setLoading(true)
 
     try {
       await register({
-        username: formData.username,
-        email: formData.email,
+        username: formData.username.trim(),
+        email: formData.email.trim(),
         password: formData.password,
       })
+      showToast.success('Account created successfully!')
       navigate('/dashboard')
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to register. Please try again.')
+      const errorMessage = err.response?.data?.message || 'Failed to register. Please try again.'
+      setError(errorMessage)
+      showToast.error(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -87,6 +122,8 @@ export default function RegisterForm() {
         value={formData.username}
         onChange={handleChange}
         disabled={loading}
+        helperText="3-30 characters"
+        inputProps={{ minLength: 3, maxLength: 30 }}
       />
       <TextField
         margin="normal"
@@ -112,6 +149,8 @@ export default function RegisterForm() {
         value={formData.password}
         onChange={handleChange}
         disabled={loading}
+        helperText="Minimum 6 characters"
+        inputProps={{ minLength: 6 }}
       />
       <TextField
         margin="normal"
