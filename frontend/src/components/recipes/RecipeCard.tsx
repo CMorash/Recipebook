@@ -24,8 +24,8 @@ export default function RecipeCard({ recipe, onClick, onDeleted }: RecipeCardPro
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
 
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const handleDelete = async (e?: React.MouseEvent) => {
+    e?.stopPropagation()
     setDeleting(true)
     try {
       await recipeService.deleteRecipe(recipe._id)

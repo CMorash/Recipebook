@@ -1,0 +1,54 @@
+# Dependencies
+node_modules
+npm-debug.log
+package-lock.json
+yarn.lock
+yarn-error.log
+
+# Environment
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Build outputs
+dist
+build
+.next
+out
+
+# Git
+.git
+.gitignore
+.github
+
+# Documentation
+*.md
+docs
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+.nyc_output
+
+# Logs
+logs
+*.log
+
+# Docker
+# Note: Dockerfile.fly is needed for Fly.io deployment!
+# Only ignore local dev Dockerfiles
+frontend/Dockerfile
+backend/Dockerfile
+docker-compose*.yml
+
