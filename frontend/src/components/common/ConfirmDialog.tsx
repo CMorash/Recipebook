@@ -11,7 +11,7 @@ interface ConfirmDialogProps {
   open: boolean
   title: string
   message: string
-  onConfirm: () => void
+  onConfirm: (e?: React.MouseEvent) => void | Promise<void>
   onCancel: () => void
 }
 
