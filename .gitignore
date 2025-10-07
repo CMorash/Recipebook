@@ -19,6 +19,7 @@ docker-compose*
 *.md
 !README.md
 docs/
+!Dockerfile.fly
 
 # Project-wide logs (if any exist at root)
 logs/
