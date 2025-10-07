@@ -1,7 +1,7 @@
 # Fly.io configuration for Digital Cookbook
 # Runs both frontend (Nginx) and backend (Express) in a single container
 
-app = "digital-cookbook"
+app = "recipebook-4i0q-w"  # Update this to match your actual Fly.io app name
 primary_region = "iad" # US East (change: iad, lax, lhr, ams, fra, nrt, sin, hkg)
 kill_signal = "SIGINT"
 kill_timeout = "5s"
@@ -10,7 +10,9 @@ kill_timeout = "5s"
   auto_rollback = true
 
 [build]
-  # Force use of our custom Dockerfile
+  # Explicitly specify the Dockerfile to use
+  dockerfile = "Dockerfile.fly"
+  
   [build.args]
     NODE_ENV = "production"
 
