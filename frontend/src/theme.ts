@@ -4,22 +4,22 @@ const theme = createTheme({
     palette: {
       mode: 'dark',
       primary: {
-        main: '#10B981', // Bright green
-        light: '#34D399',
-        dark: '#059669',
+        main: '#71705C', // 
+        light: '#91907C',
+        dark: '#51503C',
       },
       secondary: {
-        main: '#F59E0B', // Amber
-        light: '#FBBF24',
-        dark: '#D97706',
+        main: '#3B3C35', // 
+        light: '#4B4C45',
+        dark: '#2B2C25',
       },
       background: {
-        default: '#111827',
-        paper: '#1F2937',
+        default: '#3E3A37',
+        paper: '#73736C',
       },
       text: {
-        primary: '#F9FAFB',
-        secondary: '#D1D5DB',
+        primary: '#EAE9E6',
+        secondary: '#DAD9D6',
       },
     },
   typography: {

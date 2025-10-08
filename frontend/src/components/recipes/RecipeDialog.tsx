@@ -248,7 +248,7 @@ export default function RecipeDialog({
             </IconButton>
           </Box>
         ))}
-        <Button startIcon={<AddIcon />} onClick={addIngredient} size="small">
+        <Button startIcon={<AddIcon />} onClick={addIngredient} size="small" color="secondary">
           Add Ingredient
         </Button>
 
@@ -281,12 +281,12 @@ export default function RecipeDialog({
             </IconButton>
           </Box>
         ))}
-        <Button startIcon={<AddIcon />} onClick={addStep} size="small">
+        <Button startIcon={<AddIcon />} onClick={addStep} size="small" color="secondary">
           Add Step
         </Button>
       </DialogContent>
       <DialogActions sx={{ px: 3, py: 2 }}>
-        <Button onClick={onClose} disabled={loading} size="large">
+        <Button onClick={onClose} disabled={loading} size="large" color="secondary">
           Cancel
         </Button>
         <Button 

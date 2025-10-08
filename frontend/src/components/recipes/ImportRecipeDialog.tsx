@@ -10,7 +10,6 @@ import {
   Alert,
   CircularProgress,
   Typography,
-  Link,
 } from '@mui/material'
 import { CloudDownload as ImportIcon } from '@mui/icons-material'
 import { recipeService } from '@/services/recipeService'
@@ -139,15 +138,15 @@ export default function ImportRecipeDialog({
           </Box>
         )}
 
-        <Box mt={2} p={2} sx={{ bgcolor: 'info.lighter', borderRadius: 1 }}>
-          <Typography variant="caption" color="info.dark">
+        <Box mt={2} p={2} sx={{ bgcolor: 'info.lighter', borderRadius: 1}}>
+          <Typography variant="caption">
             <strong>Tip:</strong> After importing, you can edit the recipe to adjust
             ingredients, steps, or add a rating.
           </Typography>
         </Box>
       </DialogContent>
       <DialogActions sx={{ px: 3, py: 2 }}>
-        <Button onClick={handleClose} disabled={loading} size="large">
+        <Button onClick={handleClose} disabled={loading} size="large" color="secondary">
           Cancel
         </Button>
         <Button
