@@ -13,13 +13,14 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { Add as AddIcon, Logout as LogoutIcon } from '@mui/icons-material'
+import { Add as AddIcon, Logout as LogoutIcon, CloudDownload as ImportIcon } from '@mui/icons-material'
 import { useAuth } from '@/contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { recipeService } from '@/services/recipeService'
 import { Recipe } from '@/types/recipe.types'
 import RecipeList from '@/components/recipes/RecipeList'
 import RecipeDialog from '@/components/recipes/RecipeDialog'
+import ImportRecipeDialog from '@/components/recipes/ImportRecipeDialog'
 import { showToast } from '@/utils/toast'
 
 export default function DashboardPage() {
@@ -31,6 +32,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [importDialogOpen, setImportDialogOpen] = useState(false)
 
   const fetchRecipes = async () => {
     try {
@@ -59,6 +61,11 @@ export default function DashboardPage() {
   const handleRecipeCreated = (recipe: Recipe) => {
     setRecipes([recipe, ...recipes])
     setDialogOpen(false)
+  }
+
+  const handleRecipeImported = (recipe: Recipe) => {
+    setRecipes([recipe, ...recipes])
+    setImportDialogOpen(false)
   }
 
   const handleRecipeDeleted = (id: string) => {
@@ -111,14 +118,24 @@ export default function DashboardPage() {
             My Recipes
           </Typography>
           {!isMobile && (
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => setDialogOpen(true)}
-              size="large"
-            >
-              Add Recipe
-            </Button>
+            <Box display="flex" gap={2}>
+              <Button
+                variant="outlined"
+                startIcon={<ImportIcon />}
+                onClick={() => setImportDialogOpen(true)}
+                size="large"
+              >
+                Import from URL
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => setDialogOpen(true)}
+                size="large"
+              >
+                Add Recipe
+              </Button>
+            </Box>
           )}
         </Box>
 
@@ -147,21 +164,42 @@ export default function DashboardPage() {
         onRecipeCreated={handleRecipeCreated}
       />
 
-      {/* Mobile Floating Action Button */}
+      <ImportRecipeDialog
+        open={importDialogOpen}
+        onClose={() => setImportDialogOpen(false)}
+        onRecipeImported={handleRecipeImported}
+      />
+
+      {/* Mobile Floating Action Buttons */}
       {isMobile && (
-        <Fab
-          color="primary"
-          aria-label="add recipe"
-          onClick={() => setDialogOpen(true)}
-          sx={{
-            position: 'fixed',
-            bottom: 16,
-            right: 16,
-            zIndex: 1000,
-          }}
-        >
-          <AddIcon />
-        </Fab>
+        <>
+          <Fab
+            color="primary"
+            aria-label="add recipe"
+            onClick={() => setDialogOpen(true)}
+            sx={{
+              position: 'fixed',
+              bottom: 16,
+              right: 16,
+              zIndex: 1000,
+            }}
+          >
+            <AddIcon />
+          </Fab>
+          <Fab
+            color="secondary"
+            aria-label="import recipe"
+            onClick={() => setImportDialogOpen(true)}
+            sx={{
+              position: 'fixed',
+              bottom: 16,
+              right: 80,
+              zIndex: 1000,
+            }}
+          >
+            <ImportIcon />
+          </Fab>
+        </>
       )}
     </Box>
   )

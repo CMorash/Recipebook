@@ -5,6 +5,7 @@ import {
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  scrapeRecipe,
 } from '../controllers/recipe.controller'
 import { auth } from '../middleware/auth.middleware'
 
@@ -16,6 +17,7 @@ router.use(auth)
 router.get('/', getRecipes)
 router.get('/:id', getRecipe)
 router.post('/', createRecipe)
+router.post('/scrape', scrapeRecipe)
 router.put('/:id', updateRecipe)
 router.delete('/:id', deleteRecipe)
 

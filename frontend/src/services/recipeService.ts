@@ -25,5 +25,10 @@ export const recipeService = {
   async deleteRecipe(id: string): Promise<void> {
     await api.delete(`/recipes/${id}`)
   },
+
+  async scrapeRecipe(url: string): Promise<Recipe> {
+    const response = await api.post<Recipe>('/recipes/scrape', { url })
+    return response.data
+  },
 }
 

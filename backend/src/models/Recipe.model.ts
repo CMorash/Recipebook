@@ -31,8 +31,9 @@ const IngredientSchema = new Schema<IIngredient>(
     },
     amount: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
+      default: '',
     },
     unit: {
       type: String,
