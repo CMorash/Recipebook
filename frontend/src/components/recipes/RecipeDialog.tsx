@@ -11,10 +11,12 @@ import {
   Typography,
   Rating,
   Alert,
+  Chip,
+  Stack,
 } from '@mui/material'
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { recipeService } from '@/services/recipeService'
-import { Recipe, Ingredient } from '@/types/recipe.types'
+import { Recipe, Ingredient, RECIPE_TAGS } from '@/types/recipe.types'
 import { showToast } from '@/utils/toast'
 
 interface RecipeDialogProps {
@@ -38,6 +40,7 @@ export default function RecipeDialog({
   ])
   const [steps, setSteps] = useState<string[]>([''])
   const [rating, setRating] = useState<number | null>(null)
+  const [tags, setTags] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -47,11 +50,13 @@ export default function RecipeDialog({
       setIngredients(recipe.ingredients)
       setSteps(recipe.steps)
       setRating(recipe.rating || null)
+      setTags(recipe.tags || [])
     } else {
       setTitle('')
       setIngredients([{ name: '', amount: '', unit: '' }])
       setSteps([''])
       setRating(null)
+      setTags([])
     }
     setError('')
   }, [recipe, open])
@@ -132,6 +137,7 @@ export default function RecipeDialog({
         ingredients: validIngredients,
         steps: validSteps,
         rating: rating || undefined,
+        tags: tags,
       }
 
       if (recipe) {
@@ -199,6 +205,33 @@ export default function RecipeDialog({
             onChange={(_, newValue) => setRating(newValue)}
             size="large"
           />
+        </Box>
+
+        <Box mt={3} mb={2}>
+          <Typography variant="subtitle1" gutterBottom fontWeight="600">
+            Tags
+          </Typography>
+          <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+            Select categories for this recipe
+          </Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            {RECIPE_TAGS.map((tag) => (
+              <Chip
+                key={tag}
+                label={tag.charAt(0).toUpperCase() + tag.slice(1)}
+                onClick={() => {
+                  setTags(prev => 
+                    prev.includes(tag) 
+                      ? prev.filter(t => t !== tag)
+                      : [...prev, tag]
+                  )
+                }}
+                color={tags.includes(tag) ? 'primary' : 'default'}
+                variant={tags.includes(tag) ? 'filled' : 'outlined'}
+                sx={{ mb: 1 }}
+              />
+            ))}
+          </Stack>
         </Box>
 
         <Box mt={3} mb={2}>

@@ -72,10 +72,23 @@ export default function RecipeCard({ recipe, onClick, onDeleted }: RecipeCardPro
           <Typography variant="body2" color="text.secondary" mb={1}>
             {recipe.ingredients.length} ingredients • {recipe.steps.length} steps
           </Typography>
+          <Box display="flex" gap={0.5} mb={1} flexWrap="wrap">
+            {recipe.tags && recipe.tags.length > 0 && recipe.tags.map((tag) => (
+              <Chip
+                key={tag}
+                label={tag.charAt(0).toUpperCase() + tag.slice(1)}
+                size="small"
+                color="primary"
+                variant="outlined"
+                sx={{ fontSize: '0.7rem', height: '20px' }}
+              />
+            ))}
+          </Box>
           <Chip
             label={recipe.source.type === 'manual' ? 'Manual' : 'Scraped'}
             size="small"
             variant="outlined"
+            sx={{ fontSize: '0.7rem' }}
           />
         </CardContent>
         <CardActions>

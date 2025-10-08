@@ -26,7 +26,11 @@ export interface CreateRecipeData {
   ingredients: Ingredient[]
   steps: string[]
   rating?: number
+  tags?: string[]
 }
 
 export interface UpdateRecipeData extends Partial<CreateRecipeData> {}
+
+export const RECIPE_TAGS = ['breakfast', 'lunch', 'dinner', 'appetizer', 'dessert', 'drink'] as const
+export type RecipeTag = typeof RECIPE_TAGS[number]
 

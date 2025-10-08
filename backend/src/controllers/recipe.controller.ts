@@ -35,7 +35,7 @@ export const getRecipe = async (req: AuthRequest, res: Response) => {
 // Create a new recipe
 export const createRecipe = async (req: AuthRequest, res: Response) => {
   try {
-    const { title, ingredients, steps, rating } = req.body
+    const { title, ingredients, steps, rating, tags } = req.body
 
     // Validation
     if (!title || !ingredients || !steps) {
@@ -56,6 +56,7 @@ export const createRecipe = async (req: AuthRequest, res: Response) => {
       ingredients,
       steps,
       rating,
+      tags: tags || [],
       source: {
         type: 'manual',
       },
@@ -74,7 +75,7 @@ export const createRecipe = async (req: AuthRequest, res: Response) => {
 export const updateRecipe = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params
-    const { title, ingredients, steps, rating } = req.body
+    const { title, ingredients, steps, rating, tags } = req.body
 
     const recipe = await Recipe.findOne({ _id: id, userId: req.userId })
 
@@ -87,6 +88,7 @@ export const updateRecipe = async (req: AuthRequest, res: Response) => {
     if (ingredients !== undefined) recipe.ingredients = ingredients
     if (steps !== undefined) recipe.steps = steps
     if (rating !== undefined) recipe.rating = rating
+    if (tags !== undefined) recipe.tags = tags
 
     await recipe.save()
 

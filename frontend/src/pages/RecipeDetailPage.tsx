@@ -135,11 +135,22 @@ export default function RecipeDetailPage() {
                   </Typography>
                 </Box>
               )}
-              <Chip
-                label={recipe.source.type === 'manual' ? 'Manual Entry' : 'Scraped'}
-                size="small"
-                sx={{ mt: 1 }}
-              />
+              <Box display="flex" gap={1} mt={1} flexWrap="wrap">
+                {recipe.tags && recipe.tags.length > 0 && recipe.tags.map((tag) => (
+                  <Chip
+                    key={tag}
+                    label={tag.charAt(0).toUpperCase() + tag.slice(1)}
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                  />
+                ))}
+                <Chip
+                  label={recipe.source.type === 'manual' ? 'Manual Entry' : 'Scraped'}
+                  size="small"
+                  variant="outlined"
+                />
+              </Box>
             </Box>
             <Box display="flex" gap={1}>
               <IconButton 
