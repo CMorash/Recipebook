@@ -108,7 +108,7 @@ export default function LoginForm() {
       <Box textAlign="center">
         <Typography variant="body2" color="text.secondary">
           Don't have an account?{' '}
-          <Link component={RouterLink} to="/register" underline="hover">
+          <Link component={RouterLink} to="/register" underline="hover" color="secondary">
             Sign up
           </Link>
         </Typography>
