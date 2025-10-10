@@ -2,7 +2,7 @@
 # Runs both frontend (Nginx) and backend (Express) in a single container
 
 app = "recipebook-4i0q-w"  # Update this to match your actual Fly.io app name
-primary_region = "iad" # US East (change: iad, lax, lhr, ams, fra, nrt, sin, hkg)
+primary_region = "sea" 
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
@@ -29,12 +29,13 @@ kill_timeout = "5s"
   min_machines_running = 0
   processes = ["app"]
 
-[[http_service.checks]]
-  interval = "15s"
-  timeout = "2s"
-  grace_period = "5s"
-  method = "GET"
-  path = "/"
+  # Health check configuration
+  [[http_service.checks]]
+    interval = "30s"           # Check every 30s (reduced frequency saves resources)
+    timeout = "5s"             # 5s timeout (generous for cold starts)
+    grace_period = "10s"       # 10s grace period for startup
+    method = "GET"
+    path = "/"
 
 # VM configuration (free tier: shared-cpu-1x with 256MB)
 [[vm]]

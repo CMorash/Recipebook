@@ -18,13 +18,15 @@ A modern, full-stack digital cookbook application for managing and organizing yo
 ## Tech Stack
 
 ### Frontend
-- React 18 with TypeScript
+
+- React 20 with TypeScript
 - Material-UI (MUI) for UI components
 - React Router v6 for navigation
 - Axios for API calls
 - Vite for fast development
 
 ### Backend
+
 - Node.js with Express
 - TypeScript
 - MongoDB with Mongoose ODM
@@ -32,6 +34,7 @@ A modern, full-stack digital cookbook application for managing and organizing yo
 - Bcrypt for password hashing
 
 ### DevOps & Hosting
+
 - **Fly.io** - Main hosting platform (free tier, zero SSH deployment)
 - Docker & Docker Compose
 - GitHub Actions for CI/CD (automated deployments)
@@ -71,7 +74,7 @@ A modern, full-stack digital cookbook application for managing and organizing yo
 
 ### Prerequisites
 
-- Node.js 18+ LTS
+- Node.js 20+ LTS
 - MongoDB Atlas account (free tier)
 - Docker & Docker Compose (optional, for containerized development)
 
@@ -90,9 +93,7 @@ cd Recipes_V1
 cd backend
 npm install
 
-# Create .env file
-cp .env.example .env
-# Edit .env and add your MongoDB URI and JWT secret
+# Create .env file and add your MongoDB URI and JWT secret
 ```
 
 3. **Set up Frontend**
@@ -101,7 +102,7 @@ cp .env.example .env
 cd ../frontend
 npm install
 
-# The .env file is already configured for local development
+# Create .env file as detailed below
 ```
 
 4. **Start the application**
@@ -152,11 +153,13 @@ VITE_API_URL=http://localhost:5000/api
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 - `GET /api/auth/me` - Get current user (protected)
 
 ### Recipes
+
 - `GET /api/recipes` - Get all user's recipes (protected)
 - `GET /api/recipes/:id` - Get single recipe (protected)
 - `POST /api/recipes` - Create new recipe (protected)
@@ -172,111 +175,41 @@ This application is deployed on **Fly.io** with fully automated, zero-SSH deploy
 **Live App:** Check `fly.toml` for your app URL (e.g., `https://your-app.fly.dev`)
 
 #### Prerequisites
+
 - Fly.io account (free tier available)
 - Fly CLI installed (`fly`)
 - MongoDB Atlas database
 
-#### Initial Setup
-
-1. **Install Fly CLI**
-```bash
-# macOS
-brew install flyctl
-
-# Windows
-pwsh -Command "iwr https://fly.io/install.ps1 -useb | iex"
-
-# Linux
-curl -L https://fly.io/install.sh | sh
-```
-
-2. **Authenticate**
-```bash
-fly auth login
-```
-
-3. **Launch App**
-```bash
-fly launch
-# Follow prompts, select region, etc.
-```
-
-4. **Set Secrets**
-```bash
-fly secrets set MONGODB_URI="your-mongodb-uri"
-fly secrets set JWT_SECRET="your-jwt-secret"
-fly secrets set NODE_ENV="production"
-fly secrets set PORT="8080"
-fly secrets set CORS_ORIGIN="https://your-app.fly.dev"
-fly secrets set JWT_EXPIRES_IN="7d"
-```
-
-5. **Deploy**
-```bash
-fly deploy
-```
-
-#### Automated Deployments (GitHub Actions)
-
-Once set up, every push to `main` automatically deploys to Fly.io!
-
-**Required GitHub Secret:**
-- `FLY_API_TOKEN` - Generate with: `fly tokens create deploy`
-
-See `.github/workflows/deploy-fly.yml` for the CI/CD workflow.
-
-#### Monitoring
-```bash
-# View logs
-fly logs
-
-# Check status
-fly status
-
-# Open app
-fly open
-```
-
-For detailed deployment instructions, see [docs/FLY_IO_DEPLOYMENT.md](docs/FLY_IO_DEPLOYMENT.md)
-
----
-
-### AWS EC2 Deployment (Future Alternative)
-
-AWS EC2 deployment may be implemented as an alternative hosting option in a future iteration. The current Fly.io deployment provides:
-- ✅ Zero SSH management
-- ✅ Automatic HTTPS/SSL
-- ✅ Free tier hosting
-- ✅ Simplified deployment pipeline
-
-If AWS hosting is needed in the future, see [docs/DEPLOYMENT_OPTIONS.md](docs/DEPLOYMENT_OPTIONS.md) for comparison and setup instructions.
-
 ## Development Roadmap
 
 ### Phase 1: MVP (Current)
-- [x] User authentication
-- [x] Manual recipe creation
-- [x] Recipe CRUD operations
-- [x] 5-star rating system
-- [x] Responsive UI
+
+- [X] User authentication
+- [X] Manual recipe creation
+- [X] Recipe CRUD operations
+- [X] 5-star rating system
+- [X] Responsive UI
 
 ### Phase 2: Deployment ✅ COMPLETED
-- [x] Docker configuration
-- [x] Fly.io setup (zero SSH!)
-- [x] GitHub Actions CI/CD
-- [x] Production deployment
-- [x] Toast notifications
-- [x] Enhanced form validation
-- [x] Mobile responsiveness
 
-### Phase 3: Recipe Scraping (Future)
-- [ ] URL-based recipe import
-- [ ] Recipe parsing and normalization
+- [X] Docker configuration
+- [X] Fly.io setup (zero SSH!)
+- [X] GitHub Actions CI/CD
+- [X] Production deployment
+- [X] Toast notifications
+- [X] Enhanced form validation
+- [X] Mobile responsiveness
+
+### Phase 3: Recipe Scraping
+
+- [X] URL-based recipe import
+- [X] Recipe parsing and normalization
 - [ ] Preview before saving
 
 ### Phase 4: Advanced Features (Future)
-- [ ] Recipe search and filtering
-- [ ] Recipe tags and categories
+
+- [X] Recipe search and filtering
+- [X] Recipe tags and categories
 - [ ] Image upload
 - [ ] Recipe sharing
 - [ ] Shopping list generation
@@ -284,22 +217,6 @@ If AWS hosting is needed in the future, see [docs/DEPLOYMENT_OPTIONS.md](docs/DE
 - [ ] LLM integration
 - [ ] AWS Secrets Manager for JWT rotation (if migrating to AWS)
 - [ ] AWS EC2 deployment option (alternative to Fly.io)
-
-## Testing
-
-### Backend Tests
-
-```bash
-cd backend
-npm test
-```
-
-### Frontend Tests
-
-```bash
-cd frontend
-npm test
-```
 
 ## Contributing
 
@@ -316,4 +233,3 @@ For issues or questions, please open a GitHub issue.
 ---
 
 **Built with ❤️ for home cooks everywhere**
-
